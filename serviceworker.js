@@ -12,21 +12,10 @@ var urlToCache = [
 //install service worker
 self.addEventListener('install', function(event){
     event.waitUntil(
-        caches.open(CACHE_NAME).then(
-            function(cache){
+        caches.open(CACHE_NAME).then(function(cache){
                 console.log('service worker do install..',cache);
                 return cache.addAll(urlToCache);
-            }
-        )
-    )
+            })
+    );
 });
 
-if('serviceworker' in navigator){
-    window.addEventListener('load',function(){
-        navigator.serviceWorker.register('/serviceworker.js').then(function(reg){
-            console.log('SW regis sukses dengan skop',reg.scope)
-        }, function(err){
-            console.log('sw regis failed',err);
-        })
-        })
-    }

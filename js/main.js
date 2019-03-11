@@ -65,4 +65,15 @@ $(document).ready(function(){
             
         });
     }
+
 });
+if('serviceWorker' in navigator){
+    window.addEventListener('load',function(){
+        navigator.serviceWorker.register('/serviceworker.js').then(function(reg){
+            console.log('SW regis sukses dengan skop',reg.scope)
+            }, 
+                function(err){
+                console.log('sw regis failed',err);
+        })
+    })
+} 
