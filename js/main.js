@@ -39,6 +39,30 @@ $(document).ready(function(){
 
         
     });
+
+    var networkDataReceive =false;
+    /* cek di Cache, Apakah sudah ada belum, ngambil dari service online */
+    var networkUpdate = fetch(_url).then(function(response){
+        return response.json();
+    }).then(function(data){
+        networkDataReceive = true;
+        renderPage(data)
+    });
+    
+    /*fetch data dari cache*/ 
+    caches.match(_url).then(function(response){
+        if(!response) throw Error("no data on cache");
+        return response.json();
+    }).then(function(data) {
+        if(!networkDataReceive){
+            renderPage(data);
+            console.log('render data from cache');
+        }
+    }).catch(function(){
+        return networkUpdate;
+    })
+
+    
     $('#gender-select').on('change', function(){
         updateList($(this).val())
     });
